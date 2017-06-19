@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor} from 'react-native';
+import {StyleSheet, Platform, Dimensions, NativeModules, NativeEventEmitter, DeviceEventEmitter, processColor, View} from 'react-native';
 import {KeyboardTrackingView} from 'react-native-keyboard-tracking-view';
 import CustomKeyboardView from './CustomKeyboardView';
 
@@ -22,6 +22,7 @@ export default class KeyboardAccessoryView extends Component {
     requiresSameParentToManageScrollView: React.PropTypes.bool,
   };
   static defaultProps = {
+    keyboardTrackingView: true,
     iOSScrollBehavior: -1,
     revealKeyboardInteractive: false,
     manageScrollView: true,
@@ -87,8 +88,9 @@ export default class KeyboardAccessoryView extends Component {
   }
 
   render() {
+    const SelectedKeyboardTrackingView = (this.props.keyboardTrackingView === true) ? KeyboardTrackingView : View;
     return (
-      <KeyboardTrackingView
+      <SelectedKeyboardTrackingView
         style={styles.trackingToolbarContainer}
         onLayout={this.onContainerComponentHeightChanged}
         scrollBehavior={this.getIOSTrackingScrollBehavior()}
@@ -104,7 +106,7 @@ export default class KeyboardAccessoryView extends Component {
           onItemSelected={this.props.onItemSelected}
           onRequestShowKeyboard={this.props.onRequestShowKeyboard}
         />
-      </KeyboardTrackingView>
+      </SelectedKeyboardTrackingView>
     );
   }
 }
